@@ -122,12 +122,28 @@ function loadImg(src, onOk, onFail) {
 /* ---------------- Lightbox ---------------- */
 const lb = $('#lightbox');
 let lbList = [], lbIndex = 0;
+const lbCache = {};
+function preloadImg(src) {
+  if (src && !lbCache[src]) { const im = new Image(); im.decoding = 'async'; im.src = src; lbCache[src] = im; }
+  return lbCache[src];
+}
 function openLightboxList(list, i) {
   lbList = list;
   lbIndex = Math.max(0, i);
-  $('#lbImg').src = lbList[lbIndex].src;
+  const src = lbList[lbIndex].src;
+  const el = $('#lbImg');
+  const thumb = src.replace('/gallery/', '/thumbs/');
+  const full = preloadImg(src);
+  if (full.complete && full.naturalWidth) {
+    el.src = src;
+  } else {
+    if (thumb !== src) el.src = thumb;
+    el.dataset.want = src;
+    full.addEventListener('load', () => { if (el.dataset.want === src) el.src = src; }, { once: true });
+  }
   $('#lbCaption').textContent = lbList[lbIndex].note || '';
   lb.classList.add('show');
+  [1, -1, 2].forEach((d) => preloadImg(lbList[(lbIndex + d + lbList.length) % lbList.length].src));
 }
 function stepLightbox(dir) {
   if (!lbList.length) return;
@@ -316,36 +332,45 @@ function buildDiscoBall() {
   const cv = $('#discoBall');
   const ctx = cv.getContext('2d');
   const N = CONFIG.filmCount;
-  const SPR = 64;
+  const SPR = 80;
   const gray = new Array(N), color = new Array(N);
 
-  // Pre-bake small grayscale + colour sprites once instead of filtering every frame
-  Array.from({ length: N }, (_, i) => {
-    const img = new Image();
-    img.onload = () => {
-      const s = Math.min(img.naturalWidth, img.naturalHeight);
-      const sx = (img.naturalWidth - s) / 2, sy = (img.naturalHeight - s) / 2;
-      const c = document.createElement('canvas');
-      c.width = c.height = SPR;
-      c.getContext('2d').drawImage(img, sx, sy, s, s, 0, 0, SPR, SPR);
-      color[i] = c;
-      const g = document.createElement('canvas');
-      g.width = g.height = SPR;
-      const gx = g.getContext('2d');
-      gx.drawImage(c, 0, 0);
-      try {
-        const d = gx.getImageData(0, 0, SPR, SPR);
-        const p = d.data;
-        for (let k = 0; k < p.length; k += 4) {
-          const v = Math.max(0, Math.min(255, (0.2126 * p[k] + 0.7152 * p[k + 1] + 0.0722 * p[k + 2] - 128) * 1.25 + 128));
-          p[k] = p[k + 1] = p[k + 2] = v;
-        }
-        gx.putImageData(d, 0, 0);
-      } catch (_) { /* tainted canvas (file://) — fall back to colour */ }
-      gray[i] = g;
-    };
-    img.src = `photos/thumbs/${pad(i + 1)}.jpg`;
-  });
+  // One sprite sheet (10 x 6 grid of 96px squares) -> pre-baked grayscale + colour tiles
+  const bake = (i, src, sx, sy, s) => {
+    const c = document.createElement('canvas');
+    c.width = c.height = SPR;
+    c.getContext('2d').drawImage(src, sx, sy, s, s, 0, 0, SPR, SPR);
+    color[i] = c;
+    const g = document.createElement('canvas');
+    g.width = g.height = SPR;
+    const gx = g.getContext('2d');
+    gx.drawImage(c, 0, 0);
+    try {
+      const d = gx.getImageData(0, 0, SPR, SPR);
+      const p = d.data;
+      for (let k = 0; k < p.length; k += 4) {
+        const v = Math.max(0, Math.min(255, (0.2126 * p[k] + 0.7152 * p[k + 1] + 0.0722 * p[k + 2] - 128) * 1.25 + 128));
+        p[k] = p[k + 1] = p[k + 2] = v;
+      }
+      gx.putImageData(d, 0, 0);
+    } catch (_) { /* tainted canvas (file://) — fall back to colour */ }
+    gray[i] = g;
+  };
+  const sheet = new Image();
+  sheet.onload = () => {
+    for (let i = 0; i < N; i++) bake(i, sheet, (i % 10) * 96, ((i / 10) | 0) * 96, 96);
+  };
+  sheet.onerror = () => {
+    for (let i = 0; i < N; i++) {
+      const img = new Image();
+      img.onload = () => {
+        const s = Math.min(img.naturalWidth, img.naturalHeight);
+        bake(i, img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s);
+      };
+      img.src = `photos/thumbs/${pad(i + 1)}.jpg`;
+    }
+  };
+  sheet.src = 'photos/thumbs/sprite.jpg';
 
   let R = 150, W = 300, dpr = 1, tiles = [];
   const PERSP = 1500;
@@ -473,9 +498,10 @@ function buildDiscoBall() {
     return bd <= 0.6 ? best : null;
   }
 
+  disco.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
   disco.addEventListener('pointerdown', (e) => {
     dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY;
-    disco.setPointerCapture(e.pointerId);
+    try { disco.setPointerCapture(e.pointerId); } catch (_) {}
   });
   disco.addEventListener('pointermove', (e) => {
     if (!dragging) return;

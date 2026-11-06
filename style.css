@@ -190,6 +190,7 @@ button { font: inherit; color: inherit; }
 .disco {
   position: absolute; left: 50%; top: 100px; width: calc(var(--R) * 2); height: calc(var(--R) * 2); margin-left: calc(var(--R) * -1);
   perspective: 1500px; transform-origin: 50% -100px; animation: sway 5s ease-in-out infinite; cursor: grab;
+  touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
 }
 .disco:active { cursor: grabbing; }
 @keyframes sway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
