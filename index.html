@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Nandini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Mrs+Saint+Delafield&family=Caveat:wght@400;500;600;700&family=Caveat+Brush&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="locked">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="paperF" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".007" numOctaves="5" seed="7" />
+        <feDiffuseLighting lighting-color="#ffffff" surfaceScale="2.2"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+      </filter>
+      <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="3" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="9" result="g" />
+        <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2 0 0 0 2.05" result="m" />
+        <feComposite in="rough" in2="m" operator="in" />
+      </filter>
+      <filter id="torn" x="-3%" y="-10%" width="106%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="4" />
+        <feDisplacementMap in="SourceGraphic" scale="9" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff" /><stop offset=".35" stop-color="#9a9a9a" /><stop offset=".55" stop-color="#f4f4f4" /><stop offset=".8" stop-color="#6f6f6f" /><stop offset="1" stop-color="#d9d9d9" />
+      </linearGradient>
+      <symbol id="star5" viewBox="0 0 100 100">
+        <path d="M50 4 L62 36 L96 38 L69 59 L79 93 L50 73 L21 93 L31 59 L4 38 L38 36 Z" />
+      </symbol>
+      <symbol id="lips" viewBox="0 0 120 66">
+        <path d="M2 33 C 14 22, 28 6, 44 8 C 52 9, 56 17, 60 17 C 64 17, 68 9, 76 8 C 92 6, 106 22, 118 33 C 100 31, 80 27, 60 31 C 40 27, 20 31, 2 33 Z" />
+        <path d="M2 33 C 20 35, 40 31, 60 34 C 80 31, 100 35, 118 33 C 108 51, 86 63, 60 63 C 34 63, 12 51, 2 33 Z" />
+        <path class="hl" d="M44 48 C 52 52, 66 52, 74 48" />
+        <path class="hl" d="M34 18 C 38 15, 44 14, 48 15" />
+      </symbol>
+      <symbol id="martini" viewBox="0 0 80 110">
+        <path d="M6 10 H74 L40 52 Z" /><path d="M40 52 V98 M24 102 H56" /><path d="M14 20 H66" />
+        <circle cx="50" cy="30" r="6" class="olive" /><path d="M50 30 L66 4" />
+      </symbol>
+      <symbol id="sparkle" viewBox="0 0 40 40">
+        <path d="M20 2 C 21 14, 26 19, 38 20 C 26 21, 21 26, 20 38 C 19 26, 14 21, 2 20 C 14 19, 19 14, 20 2 Z" />
+      </symbol>
+      <symbol id="doodle-heart" viewBox="0 0 100 92">
+        <path d="M50 86 C 18 62, 4 40, 14 22 C 24 6, 46 12, 50 30 C 54 10, 78 4, 88 22 C 98 42, 80 64, 50 86 C 47 84, 45 82, 42 78" />
+      </symbol>
+      <symbol id="star" viewBox="0 0 24 24">
+        <path d="M12 1.5l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 8.8l7.1-.7z" />
+      </symbol>
+      <symbol id="bow" viewBox="0 0 100 70">
+        <path d="M50 26 C 32 6, 8 10, 14 26 C 20 40, 40 34, 50 26 C 60 34, 80 40, 86 26 C 92 10, 68 6, 50 26 Z" />
+        <path d="M50 26 C 44 40, 36 54, 24 64 M50 26 C 56 40, 64 52, 78 62" />
+        <circle cx="50" cy="26" r="4" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <canvas id="fx"></canvas>
+  <div class="progress" id="progress"></div>
+
+  <!-- ============ PART 1: BIRTHDAY EVE (before midnight) ============ -->
+  <section id="eve" class="eve hidden" aria-label="Birthday eve">
+    <div class="sheet">
+      <div class="sheet-bg"></div>
+      <div class="label l-top"><span>Happy Birthday Eve,<br /><span class="her-name"></span></span></div>
+      <svg class="spark sp1"><use href="#sparkle" /></svg>
+      <svg class="spark sp2"><use href="#sparkle" /></svg>
+      <svg class="spark sp3"><use href="#sparkle" /></svg>
+      <svg class="spark sp4"><use href="#sparkle" /></svg>
+      <i class="dash d1"></i><i class="dash d2"></i>
+      <div class="crayon-age crayon" id="eveAge"></div>
+      <figure class="eve-polaroid" id="evePolaroid"><span class="tape"></span><div class="rot" id="eveRot"></div><span class="rot-dots" id="eveDots"></span></figure>
+      <img class="stk stk-disco sd1" alt="" />
+      <svg class="stk stk-star red ss1"><use href="#star5" /></svg>
+      <svg class="stk stk-star chrome ss2"><use href="#star5" /></svg>
+      <svg class="stk stk-lips sl1"><use href="#lips" /></svg>
+      <p class="eve-note" id="eveNote"></p>
+      <svg class="eve-cake" viewBox="0 0 200 210">
+        <path d="M70 70 V44 M100 66 V40 M130 70 V44" />
+        <path d="M66 30 l-6 -8 M100 24 v-10 M134 30 l6 -8 M82 26 l-3 -9 M118 26 l3 -9" class="rays" />
+        <path d="M45 120 V82 Q45 74 53 74 H147 Q155 74 155 82 V120" />
+        <path d="M45 88 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q8 12 16 0" />
+        <path d="M30 168 V128 Q30 120 38 120 H162 Q170 120 170 128 V168" />
+        <path d="M30 136 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0 q7 12 14 0" />
+        <ellipse cx="100" cy="172" rx="86" ry="8" />
+        <path d="M90 180 l-6 22 h32 l-6 -22" />
+        <path class="bow-red" d="M100 150 c-10 -12 -26 -10 -22 0 c4 8 16 4 22 0 c6 4 18 8 22 0 c4 -10 -12 -12 -22 0 m0 0 l-10 22 m10 -22 l10 22" />
+      </svg>
+      <div class="label l-date"><span id="eveDate"></span></div>
+    </div>
+
+    <div class="sheet sheet-cd" data-cd-wrap>
+      <div class="sheet-bg"></div>
+      <div class="label l-small"><span class="cd-pre">your birthday begins in</span><span class="cd-post">happy birthday, my love</span></div>
+      <div class="cd-crayon">
+        <div class="cdc" id="cdcDays"><span class="crayon" data-cd="d">00</span><small>days</small></div>
+        <div class="cdc"><span class="crayon" data-cd="h">00</span><small>hours</small></div>
+        <div class="cdc"><span class="crayon" data-cd="m">00</span><small>minutes</small></div>
+        <div class="cdc"><span class="crayon" data-cd="s">00</span><small>seconds</small></div>
+      </div>
+      <div class="cd-done">
+        <p class="crayon eve-time">it's time!</p>
+        <button class="label l-btn" id="openBirthday"><span>open your birthday →</span></button>
+      </div>
+      <p class="eve-hand">every second, a little closer to your day ♡</p>
+      <svg class="spark sp5"><use href="#sparkle" /></svg>
+      <svg class="spark sp6"><use href="#sparkle" /></svg>
+      <svg class="stk stk-martini sm1"><use href="#martini" /></svg>
+      <span class="stk stk-xoxo sx1">XOXO</span>
+      <svg class="stk stk-star red ss3"><use href="#star5" /></svg>
+    </div>
+
+    <div class="sheet sheet-disco">
+      <div class="sheet-bg"></div>
+      <div class="label l-small"><span>our little universe</span></div>
+      <div class="disco-stage" id="discoStage">
+        <svg class="disco-string" viewBox="0 0 40 200" preserveAspectRatio="none"><path d="M20 0 C 16 50, 24 100, 20 200" /></svg>
+        <svg class="disco-bow"><use href="#bow" /></svg>
+        <div class="glints" id="glints"></div>
+        <div class="disco" id="disco">
+          <div class="disco-base"></div>
+          <canvas class="disco-ball" id="discoBall"></canvas>
+          <div class="disco-shine"></div>
+        </div>
+        <svg class="stk stk-star red ds1"><use href="#star5" /></svg>
+        <svg class="stk stk-star red ds2"><use href="#star5" /></svg>
+        <svg class="stk stk-star chrome ds3"><use href="#star5" /></svg>
+        <svg class="stk stk-star red ds4"><use href="#star5" /></svg>
+      </div>
+      <p class="crayon disco-count" id="discoCount"></p>
+      <p class="eve-hand">every tile is a moment with you — spin it, tap one ♡</p>
+    </div>
+
+    <div class="sheet sheet-peek">
+      <div class="sheet-bg"></div>
+      <div class="label l-small"><span>a little sneak peek…</span></div>
+      <figure class="eve-print" id="evePrint"><span class="tape"></span><span class="tape t2"></span></figure>
+      <div class="eve-strip" id="eveStrip"></div>
+      <p class="eve-hand big">see you at midnight ♡</p>
+      <svg class="spark sp7"><use href="#sparkle" /></svg>
+      <svg class="stk stk-lips sl2"><use href="#lips" /></svg>
+      <img class="stk stk-disco sd2" alt="" />
+      <svg class="stk stk-star chrome ss4"><use href="#star5" /></svg>
+    </div>
+    <p class="eve-foot">come back at 12:00 am — something is waiting for you</p>
+  </section>
+
+  <!-- ============ INTRO: FULL-SCREEN ENVELOPE ============ -->
+  <section id="intro">
+    <div class="env-piece env-left"></div>
+    <div class="env-piece env-right"></div>
+    <div class="env-piece env-bottom"></div>
+    <div class="env-piece env-flap"></div>
+    <button class="heart-seal" id="seal" aria-label="Open me">
+      <svg viewBox="0 0 200 120">
+        <g class="wing">
+          <path d="M60 56 C 42 34, 18 32, 4 44 C 18 46, 22 52, 16 60 C 30 58, 36 62, 30 72 C 42 70, 50 70, 58 66" />
+          <path d="M50 52 C 38 44, 26 42, 16 46 M48 60 C 38 56, 30 56, 22 60" />
+        </g>
+        <g transform="translate(200,0) scale(-1,1)"><g class="wing">
+          <path d="M60 56 C 42 34, 18 32, 4 44 C 18 46, 22 52, 16 60 C 30 58, 36 62, 30 72 C 42 70, 50 70, 58 66" />
+          <path d="M50 52 C 38 44, 26 42, 16 46 M48 60 C 38 56, 30 56, 22 60" />
+        </g></g>
+        <path class="seal-heart" d="M100 110 C 60 86, 46 62, 54 42 C 62 22, 90 22, 100 42 C 110 22, 138 22, 146 42 C 154 62, 140 86, 100 110 Z" />
+        <text x="100" y="64" text-anchor="middle">open</text>
+        <text x="100" y="86" text-anchor="middle">me</text>
+      </svg>
+    </button>
+    <p class="intro-to">for <span class="her-name"></span></p>
+  </section>
+
+  <!-- ============ CURTAINS ============ -->
+  <div id="curtains">
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+    <div class="valance"></div>
+  </div>
+
+  <button id="musicBtn" class="music-btn hidden" aria-label="Toggle music"><span></span><span></span><span></span><span></span></button>
+  <audio id="bgMusic" loop preload="auto"></audio>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero paper">
+      <div class="hero-top">
+        <span>@for.<span class="her-name-lower"></span></span>
+        <span class="her-initial-pair"></span>
+      </div>
+      <div class="hero-inner">
+        <p class="eyebrow hero-in" style="--d:.2s">to the love of my life</p>
+        <h1 class="hero-title hero-in" style="--d:.4s">Happy<br />Birthday</h1>
+        <div class="hero-script her-name" aria-hidden="true"></div>
+        <p class="hero-sub hero-in" style="--d:2.2s"><i>the most beautiful chapter of my life</i></p>
+      </div>
+      <svg class="doodle d-heart"><use href="#doodle-heart" /></svg>
+      <svg class="doodle d-star s1"><use href="#star" /></svg>
+      <svg class="doodle d-star s2"><use href="#star" /></svg>
+      <svg class="doodle d-star s3"><use href="#star" /></svg>
+      <button class="secret" id="secretBtn" aria-label="psst"><svg><use href="#doodle-heart" /></svg></button>
+      <div class="scroll-cue hero-in" style="--d:2.8s">scroll <i></i></div>
+    </section>
+
+    <!-- ============ COUNTDOWN + OUR STORY ============ -->
+    <section class="wine pin">
+      <div class="block countdown" data-cd-wrap>
+        <p class="kicker reveal">COUNTING <i>down</i> TO</p>
+        <h2 class="display reveal">YOUR BIRTHDAY</h2>
+        <p class="mono-line reveal" id="bdayLine"></p>
+        <div class="cd reveal">
+          <div class="cd-unit"><span class="cd-num" data-cd="d">00</span><small>days</small></div>
+          <div class="cd-unit"><span class="cd-num" data-cd="h">00</span><small>hours</small></div>
+          <div class="cd-unit"><span class="cd-num" data-cd="m">00</span><small>minutes</small></div>
+          <div class="cd-unit"><span class="cd-num" data-cd="s">00</span><small>seconds</small></div>
+        </div>
+        <div class="cd-done">
+          <p class="script-xl">it's your day</p>
+          <p class="mono-line">happy birthday, <span class="her-name"></span></p>
+        </div>
+        <p class="hand-note reveal">every second, a little closer to your day</p>
+      </div>
+
+      <div class="block story">
+        <p class="kicker reveal">TAKE <i>a</i> LOOK <i>at</i></p>
+        <h2 class="display reveal">OUR LOVE STORY</h2>
+        <div class="agenda reveal">
+          <div class="agenda-list" id="agenda"></div>
+          <div class="agenda-side">
+            <p class="side-script"><span class="her-initial"></span> &amp; <span class="his-initial"></span></p>
+            <figure class="bw-frame" id="storyPhoto"></figure>
+          </div>
+        </div>
+        <div class="days-of-us reveal">
+          <p class="mono-line">since the day we met · <span id="metLine"></span></p>
+          <p class="dou">
+            <b id="uDays">0</b> days <em>·</em> <b id="uHours">0</b> hours <em>·</em> <b id="uMins">0</b> minutes <em>·</em> <b id="uSecs">0</b> seconds <i>of us</i>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LOVE BAND ============ -->
+    <section class="love-band paper" aria-hidden="true">
+      <div class="row"><span></span><span></span></div>
+      <div class="row rev"><span></span><span></span></div>
+      <div class="row"><span></span><span></span></div>
+    </section>
+
+    <!-- ============ LETTER DESK ============ -->
+    <section class="linen desk-section">
+      <p class="kicker reveal">A <i>little</i> LETTER</p>
+      <div class="desk">
+        <div class="desk-envelope reveal">
+          <span class="env-hand">for my<br /><span class="her-name"></span></span>
+          <i class="mini-seal"></i>
+        </div>
+        <figure class="desk-polaroid reveal" id="deskPolaroid"></figure>
+        <p class="desk-arrow reveal" id="deskNote"></p>
+        <div class="stamp reveal">
+          <svg viewBox="0 0 60 70"><path d="M30 64 V30 M30 46 C 20 44, 16 36, 18 30 M30 40 C 40 38, 44 32, 42 26" /><circle cx="30" cy="20" r="7" /><circle cx="20" cy="26" r="5" /><circle cx="40" cy="22" r="5" /><circle cx="30" cy="20" r="2.5" class="fill" /></svg>
+          <span>LOVE · 0711</span>
+        </div>
+        <svg class="gstar g1"><use href="#star" /></svg>
+        <svg class="gstar g2"><use href="#star" /></svg>
+        <svg class="gstar g3"><use href="#star" /></svg>
+        <svg class="gstar g4"><use href="#star" /></svg>
+        <article class="letter-card reveal" id="letterCard">
+          <svg class="bow"><use href="#bow" /></svg>
+          <p class="letter-text" id="letterText"></p><span class="caret" id="caret"></span>
+          <p class="letter-sign" id="letterSign"></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ MEMORIES ============ -->
+    <section class="paper memories">
+      <div class="mem-head">
+        <p class="script-bg reveal">memories</p>
+        <p class="eyebrow reveal">our little moments</p>
+        <h2 class="serif-h reveal">The ones I <i>replay</i> the most</h2>
+      </div>
+      <div class="scrapbook" id="scrapbook"></div>
+      <p class="hand-note dark film-title reveal">and every other moment, too…</p>
+      <div class="filmstrip" aria-hidden="true"><div class="film-row" id="filmA"></div><div class="film-row rev" id="filmB"></div></div>
+    </section>
+
+    <!-- ============ LOVE OF MY LIFE ============ -->
+    <section class="beige lyrics">
+      <p class="lyrics-tag">love of my life</p>
+      <div class="lyrics-cols" id="lyrics"></div>
+      <p class="lyrics-script" id="lyricsScript">love of my<br />life</p>
+      <p class="lyrics-sign">— <span class="his-name"></span></p>
+    </section>
+
+    <!-- ============ WISH + GIFTS ============ -->
+    <section class="wine pin">
+      <div class="block wish">
+        <p class="kicker reveal">MAKE <i>a</i></p>
+        <h2 class="display reveal">WISH</h2>
+        <p class="hand-note reveal" id="cakeHint">close your eyes… now blow out the candles</p>
+        <div class="cake-stage reveal">
+          <svg class="cake-art" viewBox="0 0 320 300">
+            <g transform="translate(0,-42)"><path d="M40 34 Q 160 70 280 34" />
+            <path d="M58 40 l8 18 l10 -14 M100 49 l6 18 l12 -12 M146 53 l6 18 l10 -16 M190 52 l6 17 l12 -14 M234 46 l6 17 l12 -15" /></g>
+            <path d="M90 170 V114 Q90 108 96 108 H224 Q230 108 230 114 V170" />
+            <path d="M90 122 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0 q7 14 14 0" />
+            <path d="M60 240 V176 Q60 170 66 170 H254 Q260 170 260 176 V240" />
+            <path d="M60 186 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0 q10 16 20 0" />
+            <path d="M84 216 c-4 -6 4 -10 6 -4 c2 -6 10 -2 6 4 l-6 6 z M154 222 c-4 -6 4 -10 6 -4 c2 -6 10 -2 6 4 l-6 6 z M224 216 c-4 -6 4 -10 6 -4 c2 -6 10 -2 6 4 l-6 6 z" />
+            <path d="M120 150 h0 M160 152 h0 M200 150 h0 M110 228 h0 M196 230 h0" class="dots" />
+            <ellipse cx="160" cy="246" rx="128" ry="11" />
+            <path d="M140 258 q20 10 40 0 M150 268 h20" />
+          </svg>
+          <div class="candles" id="candles"></div>
+        </div>
+        <div class="cake-actions reveal">
+          <button class="btn-line" id="micBtn">blow with your microphone</button>
+          <p class="hand-note small">or tap each flame</p>
+        </div>
+        <p class="wish-msg" id="wishMsg"></p>
+      </div>
+
+      <div class="block gifts-block">
+        <p class="kicker reveal">ADMIT <i>one</i></p>
+        <h2 class="display reveal">YOUR GIFTS</h2>
+        <p class="hand-note reveal">slide each sleeve off to see what's inside</p>
+        <div class="tickets" id="tickets"></div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL ============ -->
+    <section class="paper final">
+      <div class="reveal">
+        <p class="eyebrow">before you go</p>
+        <h2 class="serif-h">One <i>last</i> thing…</h2>
+        <button class="final-heart" id="finalHeart" aria-label="Final surprise"><svg><use href="#doodle-heart" /></svg></button>
+        <p class="hand-note dark">tap the heart</p>
+      </div>
+    </section>
+
+    <footer class="wine hearts-bg">
+      <p class="footer-script"><span class="her-name"></span> &amp; <span class="his-name"></span></p>
+      <p class="mono-line">made with all my love · since 04.02.2021</p>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="x" data-close aria-label="Close">×</button>
+    <button class="lb-nav prev" id="lbPrev" aria-label="Previous">‹</button>
+    <figure><img id="lbImg" alt="" /><figcaption id="lbCaption"></figcaption></figure>
+    <button class="lb-nav next" id="lbNext" aria-label="Next">›</button>
+  </div>
+
+  <div class="modal" id="secretModal">
+    <div class="modal-card">
+      <button class="x dark" data-close aria-label="Close">×</button>
+      <svg class="bow small"><use href="#bow" /></svg>
+      <p class="modal-text" id="secretText"></p>
+    </div>
+  </div>
+
+  <div class="finale" id="finale">
+    <canvas id="heartCanvas"></canvas>
+    <div class="finale-text"><p class="mono-line">forever &amp; always</p><p id="finaleText"></p></div>
+    <button class="x" id="finaleClose" aria-label="Close">×</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
